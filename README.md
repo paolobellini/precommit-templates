@@ -1,76 +1,171 @@
-# Pre-Commit Templates
+# 🔧 Pre-Commit Templates
 
-Collezione di configurazioni pre-commit riutilizzabili per diversi stack tecnologici.
+A collection of reusable pre-commit configurations for different technology stacks.
 
-## 📋 Prerequisiti
+## 📋 Requirements
+
+Install pre-commit:
 
 ```bash
 pip install pre-commit
 ```
 
+On macOS:
+
+```bash
+brew install pre-commit
+```
+
 ## 🚀 Setup
 
-1. **Copia la configurazione** dello stack che ti interessa:
-   ```bash
-   # Esempio per Laravel + Vue
-   curl -O https://raw.githubusercontent.com/YOUR_USERNAME/precommit-templates/main/stacks/laravel-vue/.pre-commit-config.yaml
-   ```
+### 1. Download Configuration
 
-2. **Installa gli hooks**:
-   ```bash
-   pre-commit install
-   ```
+#### Option A: Download specific stack config
 
-3. **Verifica che tutto funzioni**:
-   ```bash
-   pre-commit run --all-files
-   ```
+```bash
+# Example for Laravel + Vue stack
+curl -O https://raw.githubusercontent.com/paolobellini/precommit-templates/main/stacks/laravel-vue/.pre-commit-config.yaml
+```
 
-## 📦 Stack Disponibili
+#### Option B: Clone entire repository
+
+```bash
+degit github:paolobellini/precommit-templates/stacks/larave-vue .
+```
+
+```bash
+npx tiged paolobellini/precommit-templates/stacks/laravel-vue .
+```
+
+### 2. Install Stack Dependencies
+
+Each stack requires specific dependencies. See the stack section below for requirements.
+
+**Example for Laravel + Vue:**
+
+```bash
+./vendor/bin/sail composer require --dev \
+  larastan/larastan \
+  rector/rector \
+  driftingly/rector-laravel \
+  laravel/pint \
+  pestphp/pest \
+  icanhazstring/composer-unused
+```
+
+### 3. Install Pre-Commit Hooks
+
+```bash
+pre-commit install
+```
+
+### 4. Verify Setup
+
+```bash
+pre-commit run --all-files
+```
+
+## 📦 Available Stacks
 
 ### `laravel-vue`
-Laravel + Vue.js + Inertia.js con:
-- Rector (refactoring)
-- Laravel Pint (formatting)
-- Larastan (static analysis)
-- Pest (tests)
-- ESLint + TypeScript
+
+Laravel + Vue.js + Inertia.js with:
+
+- ✅ Rector (refactoring) - [rector-laravel](https://github.com/driftingly/rector-laravel)
+- ✅ Laravel Pint (formatting)
+- ✅ Larastan (static analysis)
+- ✅ Pest (unit tests)
+- ✅ ESLint + TypeScript check
+- ✅ Composer unused dependencies
+
+**Dependencies:**
+
+```bash
+./vendor/bin/sail composer require --dev \
+  larastan/larastan \
+  rector/rector \
+  driftingly/rector-laravel \
+  laravel/pint \
+  pestphp/pest \
+  icanhazstring/composer-unused
+```
 
 ### `laravel-api`
-Laravel REST API con:
-- Rector
-- Laravel Pint
-- Larastan
-- Pest
-- API Tests
+
+Laravel REST API with:
+
+- ✅ Rector (refactoring)
+- ✅ Laravel Pint (formatting)
+- ✅ Larastan (static analysis)
+- ✅ Pest (tests)
+- ✅ API-specific checks
+
+**Dependencies:**
+
+```bash
+./vendor/bin/sail composer require --dev \
+  larastan/larastan \
+  rector/rector \
+  driftingly/rector-laravel \
+  laravel/pint \
+  pestphp/pest
+```
 
 ## 💡 Workflow
 
-### Commit veloci (WIP)
+### Fast commits (WIP - skip checks)
+
 ```bash
 git commit -m "wip: work in progress" --no-verify
 ```
 
-### Commit finali (con tutti i check)
+### Full validation commits
+
 ```bash
-git commit -m "feat: nuova feature [issue: #123]"
+git commit -m "feat: new feature [issue: #123]"
 ```
 
-## 🔄 Aggiornamento
+This will run all configured checks automatically.
 
-Riscarica semplicemente il file di configurazione e rilancia:
+## 🔄 Updating Configuration
+
+To update to the latest configuration:
+
 ```bash
+# Re-download the configuration file
+curl -O https://raw.githubusercontent.com/paolobellini/precommit-templates/main/stacks/laravel-vue/.pre-commit-config.yaml
+
+# Clean and reinstall hooks
 pre-commit clean
 pre-commit install
 ```
 
-## 🤝 Contributi
+## 🛠️ Configuration Files
 
-PR benvenute! Testa le modifiche con:
-```bash
-pre-commit try-repo . <hook-id> --verbose --all-files
-```
+Some stacks require additional configuration files:
+
+- **Larastan**: `phpstan.neon`
+- **Rector**: `rector.php`
+- **ESLint**: `.eslintrc.js` or `eslint.config.js`
+
+These files should be customized based on your project needs. Example configurations are available in each stack directory.
+
+## 🤝 Contributing
+
+Contributions welcome! To add a new stack or improve existing ones:
+
+1. Fork the repository
+2. Create your stack in `stacks/your-stack-name/`
+3. Add `.pre-commit-config.yaml` and a `README.md`
+4. Test with `pre-commit try-repo . <hook-id> --verbose --all-files`
+5. Submit a Pull Request
 
 ## 📝 License
 
 MIT
+
+---
+
+**Repository**: [github.com/paolobellini/precommit-templates](https://github.com/paolobellini/precommit-templates)
+
+For issues or questions, please [open an issue](https://github.com/paolobellini/precommit-templates/issues).

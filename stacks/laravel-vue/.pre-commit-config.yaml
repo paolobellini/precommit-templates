@@ -16,19 +16,18 @@ repos:
           - id: mixed-line-ending
             args: ['--fix=lf']
 
-    # Hook - PHP/Laravel
     - repo: local
       hooks:
-          - id: rector
-            name: Rector Refactoring
-            entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/rector process --dry-run
+          - id: rector-laravel
+            name: Rector
+            entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/rector process app
             language: system
             files: \.php$
             pass_filenames: false
             stages: [pre-commit]
 
           - id: laravel-pint
-            name: Pint
+            name: Laravel Pint
             entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/pint
             language: system
             files: \.php$
@@ -37,7 +36,7 @@ repos:
 
           - id: larastan
             name: Larastan
-            entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/phpstan analyse --memory-limit=2G
+            entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/phpstan analyse app --memory-limit=2G
             language: system
             files: \.php$
             pass_filenames: false
@@ -51,7 +50,6 @@ repos:
             pass_filenames: false
             stages: [pre-commit]
 
-    # Hook - JavaScript/Vue/Node
     - repo: local
       hooks:
           - id: eslint-fix
@@ -70,7 +68,6 @@ repos:
             pass_filenames: false
             stages: [pre-commit]
 
-    # Hook - Composer
     - repo: local
       hooks:
           - id: composer-validate
