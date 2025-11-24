@@ -1,0 +1,114 @@
+repos:
+    - repo: https://github.com/pre-commit/pre-commit-hooks
+      rev: v4.5.0
+      hooks:
+          - id: trailing-whitespace
+            exclude: '\.min\.(js|css)$'
+          - id: end-of-file-fixer
+            exclude: '\.min\.(js|css)$'
+          - id: check-yaml
+            files: \.(yaml|yml)$
+          - id: check-json
+            exclude: '(composer\.lock|package-lock\.json)$'
+          - id: check-merge-conflict
+          - id: check-added-large-files
+            args: ['--maxkb=1000']
+          - id: mixed-line-ending
+            args: ['--fix=lf']
+
+    # Hook - PHP/Laravel
+    - repo: local
+      hooks:
+          - id: rector
+            name: Rector Refactoring
+            entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/rector process --dry-run
+            language: system
+            files: \.php$
+            pass_filenames: false
+            stages: [pre-commit]
+
+          - id: laravel-pint
+            name: Pint
+            entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/pint
+            language: system
+            files: \.php$
+            pass_filenames: false
+            stages: [pre-commit]
+
+          - id: larastan
+            name: Larastan
+            entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/phpstan analyse --memory-limit=2G
+            language: system
+            files: \.php$
+            pass_filenames: false
+            stages: [pre-commit]
+
+          - id: php-tests
+            name: PHP Tests
+            entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/pest --stop-on-failure --parallel
+            language: system
+            files: \.php$
+            pass_filenames: false
+            stages: [pre-commit]
+
+    # Hook - JavaScript/Vue/Node
+    - repo: local
+      hooks:
+          - id: eslint-fix
+            name: ESLint
+            entry: npm run lint:fix
+            language: system
+            files: \.(js|vue|ts)$
+            pass_filenames: false
+            stages: [pre-commit]
+
+          - id: vue-tsc
+            name: Vue TypeScript Check
+            entry: npm run type-check
+            language: system
+            files: \.(vue|ts)$
+            pass_filenames: false
+            stages: [pre-commit]
+
+    # Hook - Composer
+    - repo: local
+      hooks:
+          - id: composer-validate
+            name: Composer Validate
+            entry: ./vendor/bin/sail exec -T laravel.test composer validate --strict
+            language: system
+            files: composer\.json$
+            pass_filenames: false
+            stages: [pre-commit]
+
+          - id: composer-unused
+            name: Composer Unused Dependencies
+            entry: ./vendor/bin/sail exec -T laravel.test ./vendor/bin/composer-unused
+            language: system
+            files: composer\.json$
+            pass_filenames: false
+            stages: [pre-push]
+
+default_language_version:
+    node: '20.11.0'
+    python: python3
+
+exclude: |
+    (?x)^(
+      \.git/.*|
+      node_modules/.*|
+      vendor/.*|
+      storage/.*|
+      bootstrap/cache/.*|
+      public/build/.*|
+      public/hot|
+      \.env.*|
+      .*\.min\.(js|css)$|
+      .*\.map$
+    )$
+
+default_install_hook_types:
+    - pre-commit
+    - pre-push
+
+default_stages: [pre-commit]
