@@ -50,6 +50,15 @@ repos:
             pass_filenames: false
             stages: [pre-commit]
 
+          - id: scribe
+            name: Scribe API Documentation
+            entry: ./vendor/bin/sail exec -T laravel.test php artisan scribe:generate
+            language: system
+            files: (app/Http/Controllers/.*\.php|routes/.*\.php|config/scribe\.php)$
+            pass_filenames: false
+            stages: [pre-commit]
+
+
     - repo: local
       hooks:
           - id: composer-validate
@@ -83,7 +92,9 @@ exclude: |
       public/hot|
       \.env.*|
       .*\.min\.(js|css)$|
-      .*\.map$
+      .*\.map$|
+      \.scribe/.*|
+      public/docs/.*
     )$
 
 default_install_hook_types:

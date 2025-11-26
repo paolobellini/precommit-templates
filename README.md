@@ -1,8 +1,8 @@
-# 🔧 Pre-Commit Templates
+# Pre-Commit Templates
 
 A collection of reusable pre-commit configurations for different technology stacks.
 
-## 📋 Requirements
+## Requirements
 
 Install pre-commit:
 
@@ -16,24 +16,24 @@ On macOS:
 brew install pre-commit
 ```
 
-## 🚀 Setup
+## Setup
 
 ### 1. Download Configuration
 
-#### Option A: Download specific stack config
+**Option A: Download specific stack config**
 
 ```bash
 # Example for Laravel + Vue stack
 curl -O https://raw.githubusercontent.com/paolobellini/precommit-templates/main/stacks/laravel-vue/.pre-commit-config.yaml
 ```
 
-#### Option B: Clone entire repository
+**Option B: Clone specific stack directory**
 
 ```bash
-degit github:paolobellini/precommit-templates/stacks/larave-vue .
-```
+# Using degit
+degit github:paolobellini/precommit-templates/stacks/laravel-vue .
 
-```bash
+# Or using tiged
 npx tiged paolobellini/precommit-templates/stacks/laravel-vue .
 ```
 
@@ -65,18 +65,18 @@ pre-commit install
 pre-commit run --all-files
 ```
 
-## 📦 Available Stacks
+## Available Stacks
 
-### `laravel-vue`
+### laravel-vue
 
 Laravel + Vue.js + Inertia.js with:
 
-- ✅ Rector (refactoring) - [rector-laravel](https://github.com/driftingly/rector-laravel)
-- ✅ Laravel Pint (formatting)
-- ✅ Larastan (static analysis)
-- ✅ Pest (unit tests)
-- ✅ ESLint + TypeScript check
-- ✅ Composer unused dependencies
+- Rector (refactoring) - [rector-laravel](https://github.com/driftingly/rector-laravel)
+- Laravel Pint (formatting)
+- Larastan (static analysis)
+- Pest (unit tests)
+- ESLint + TypeScript check
+- Composer unused dependencies
 
 **Dependencies:**
 
@@ -90,15 +90,16 @@ Laravel + Vue.js + Inertia.js with:
   icanhazstring/composer-unused
 ```
 
-### `laravel-api`
+### laravel-api
 
 Laravel REST API with:
 
-- ✅ Rector (refactoring)
-- ✅ Laravel Pint (formatting)
-- ✅ Larastan (static analysis)
-- ✅ Pest (tests)
-- ✅ API-specific checks
+- Rector (refactoring)
+- Laravel Pint (formatting)
+- Larastan (static analysis)
+- Pest (tests)
+- Scribe (API documentation) - [knuckleswtf/scribe](https://scribe.knuckles.wtf/)
+- Composer unused dependencies
 
 **Dependencies:**
 
@@ -108,10 +109,12 @@ Laravel REST API with:
   rector/rector \
   driftingly/rector-laravel \
   laravel/pint \
-  pestphp/pest
+  pestphp/pest \
+  knuckleswtf/scribe \
+  icanhazstring/composer-unused
 ```
 
-## 💡 Workflow
+## Workflow
 
 ### Fast commits (WIP - skip checks)
 
@@ -127,7 +130,7 @@ git commit -m "feat: new feature [issue: #123]"
 
 This will run all configured checks automatically.
 
-## 🔄 Updating Configuration
+## Updating Configuration
 
 To update to the latest configuration:
 
@@ -140,17 +143,18 @@ pre-commit clean
 pre-commit install
 ```
 
-## 🛠️ Configuration Files
+## Configuration Files
 
 Some stacks require additional configuration files:
 
 - **Larastan**: `phpstan.neon`
 - **Rector**: `rector.php`
 - **ESLint**: `.eslintrc.js` or `eslint.config.js`
+- **Scribe**: `config/scribe.php`
 
 These files should be customized based on your project needs. Example configurations are available in each stack directory.
 
-## 🤝 Contributing
+## Contributing
 
 Contributions welcome! To add a new stack or improve existing ones:
 
@@ -160,7 +164,7 @@ Contributions welcome! To add a new stack or improve existing ones:
 4. Test with `pre-commit try-repo . <hook-id> --verbose --all-files`
 5. Submit a Pull Request
 
-## 📝 License
+## License
 
 MIT
 
